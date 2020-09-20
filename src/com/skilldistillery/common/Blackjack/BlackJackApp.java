@@ -17,35 +17,20 @@ public class BlackJackApp {
 	public static void main(String[] args) {
 		BlackJackApp ba = new BlackJackApp();
 		ba.run();
-//Create a dealer
-//create a player 
-//tell the dealer to shuffle the deck
-//dealer deals one card face up to the player
-//card is added to the players hand 		
-//dealer is dealt a card to themselves face down		
-//card is added to dealers hand
-//dealer.addCard		
-//dealer deals another card to player face up		
-//player adds card to hand	
-//Dealer deals a card face up to themselves	
-//		sysout dealers card value
-//dealer adds card to their hand
-//dealer asks player if they want to hit
-//player responds yes or no
-//if the user said hit me: 
-//		dealer deals them another card and the card is added to the players hand		
-//when player they dont want another hit 	
-//and the dealer reveals the sum of their cards
-//ask the dealer if they want to hit
-//if they have to hit the dealer deals themselves another card
-//card is added to the dealers hand	
-//whoever is closest to 21 without busting wins the game		
 
 	}
 
 	public void run() {
+		boolean keepGoing = true;
 		dealer.shuffle();
 
+//		need to put the entire game in a loop
+//		create a playgame variable, if playgame variable is equal to yes that the loop starts
+//		add this into the end of each loop so when the game ends they are asked if they want to play
+//		if yes then the loop starts over again 
+		
+		
+		
 		player1.addCardToHand(dealer.dealCard());
 		dealer.addCardToHand(dealer.dealCard());
 		System.out.println("The dealers hand is: ");
@@ -58,15 +43,11 @@ public class BlackJackApp {
 
 		if (player1.hasBlackJack()) {
 			System.out.println("Black Jack!!!!");
-			System.out.println("Would you like to play again? Y/N");
-			String playAgain = kb.next();
-
 		}
-
-		while (player1.getHandValue() < 21) {
-
+		while (player1.getHandValue() < 21 && keepGoing) {
 			System.out.println("Would you like to hit? Y/N ");
 			String userChoice = kb.next();
+
 			if (userChoice.equals("Y")) {
 				player1.addCardToHand(dealer.dealCard());
 				player1.showPlayerCards();
@@ -75,78 +56,98 @@ public class BlackJackApp {
 				System.out.println("Player 1, you got a black jack!!!");
 				System.out.println("the dealer had: ");
 				dealer.showDealerCards();
+				keepGoing = false;
 
 			}
 			if (player1.isBust()) {
 				System.out.println("you have busted :( ");
-				System.out.println("Would you ike to play again? Y/N");
-//			need to add all of this into a giant loop
+				keepGoing = false;
 			}
-			if (dealer.hasBlackJack()) {
-				System.out.println("Black Jack!! Dealer Wins!!");
-			}
+			
 			if (userChoice.equals("N")) {
-				dealer.showDealerCards();
-				
-				while (dealer.hit() == true) {
-				
-				
 				if (dealer.getHandValue() > player1.getHandValue()) {
 					System.out.println("the Dealer has won with");
 					dealer.showDealerCards();
 					System.out.println("While you had");
 					player1.showPlayerCards();
-				} else if (dealer.getHandValue() < player1.getHandValue()) {
-					System.out.println("PLayer1 has won the game! ");
+					keepGoing = false;
+					
+				} 
+				else if (dealer.getHandValue() < player1.getHandValue() && dealer.hit() != true) {
+					System.out.println("Player1 has won the game! ");
 					player1.showPlayerCards();
+					System.out.println("Dealer had ");
+					dealer.showDealerCards();
+					keepGoing = false;
+				}
+				if (dealer.getHandValue() == player1.getHandValue() && dealer.hit() != true && keepGoing == true) {
+					System.out.println("push, players had the same valued cards");
+					keepGoing = false;
+				}
+				if (dealer.hasBlackJack()) {
+					System.out.println("Dealer has a black jack!!");
+					System.out.println("Player 1 has lost");
+					keepGoing = false;
+				}
+
+				if (dealer.getHandValue() <= 17 && keepGoing == true) {
+					dealer.addCardToHand(dealer.dealCard());
+					System.out.println("the dealer now has: ");
+					dealer.showDealerCards();
+					 
+					if (dealer.isBust()) {
+						System.out.println("The dealer has busted you won");
+						keepGoing = false;
+					}
+					if (dealer.getHandValue() > player1.getHandValue() && keepGoing ==true) {
+						System.out.println("the Dealer has won with");
+						dealer.showDealerCards();
+						System.out.println("While you had");
+						player1.showPlayerCards();
+						keepGoing = false;
+						
+					} 
+
+					if (dealer.getHandValue() <= 17 && keepGoing == true) {
+						dealer.addCardToHand(dealer.dealCard());
+						System.out.println("the dealer now has: ");
+						dealer.showDealerCards();
+						if (dealer.isBust()) {
+							System.out.println("The dealer has busted you won");
+							keepGoing = false;
+						}
+						
+
+						while (dealer.getHandValue() <= 17 || dealer.getHandValue() > 17 && keepGoing == true) {
+							dealer.addCardToHand(dealer.dealCard());
+							System.out.println("the dealer now has: ");
+							dealer.showDealerCards();
+
+							if (dealer.isBust()) {
+								System.out.println("The dealer has busted you won");
+								keepGoing = false;
+							} else if (dealer.getHandValue() < player1.getHandValue() && dealer.getHandValue() <= 17) {
+								System.out.println("PLayer1 has won the game! ");
+								player1.showPlayerCards();
+								keepGoing = false;
+							}
+							if (dealer.getHandValue() == player1.getHandValue()) {
+								System.out.println("push, players had the same valued cards");
+								keepGoing = false;
+							}
+							if (dealer.hasBlackJack()) {
+								System.out.println("Dealer has a black jack!!");
+								System.out.println("Player 1 has lost");
+								keepGoing = false;
+							}
+						}
+
+					}
 				}
 
 			}
-			}
-
 		}
+
+
 	}
-
-//	Maybe make 2 methods, one for yes and one for no
-//	or maybe methods that call on each other based on whether the dealer wins or the player wins 
-
-//	
-//	
-
-//	public void runDealer() {
-//		boolean keepGoing = true;
-//		System.out.println("You have chosen to stand, it is now the dealers turn");
-//		dealer.showDealerCards();
-//
-//		while (dealer.hit() == true) {
-//			do {
-//
-//				dealer.addCardToHand(dealer.dealCard());
-//				dealer.showDealerCards();
-//				
-//				if (dealer.hasBlackJack()) {
-//					System.out.println("Black Jack!! Dealer Wins!!");
-//					keepGoing = false;
-//				}
-//				if (dealer.isBust()) {
-//					dealer.showDealerCards();
-//					System.out.println("the dealer has busted, you win!");
-//					keepGoing = false;
-//				}
-//				if (dealer.getHandValue() > player1.getHandValue()) {
-//					System.out.println("the Dealer has won with");
-//					dealer.showDealerCards();
-//					System.out.println("While you had");
-//					player1.showPlayerCards();
-//					keepGoing = false;
-//				} else if (dealer.getHandValue() < player1.getHandValue()) {
-//					System.out.println("PLayer1 has won the game! ");
-//					player1.showPlayerCards();
-//					keepGoing = false;
-//				}
-//
-//			} while (keepGoing);
-//		}
-//
-//	}
 }
