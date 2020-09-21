@@ -20,7 +20,7 @@
  - if the player stands the dealer shows his hand and if it is below the value of 17 the dealer has to hit. if it is above 17 the dealer stays and whoever has the highest value hand wins the game
  -
 
-
+## Long term stretch goals/things i need to work on
  - long stretch goals: need to put the entire game into a loop
  - add some ascii art
  - clean up the conditional statements for the game
