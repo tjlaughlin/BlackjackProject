@@ -21,6 +21,7 @@ public class BlackJackApp {
 	}
 
 	public void run() {
+		String playGame = "";
 		boolean keepGoing = true;
 		dealer.shuffle();
 
@@ -28,8 +29,10 @@ public class BlackJackApp {
 //		create a playgame variable, if playgame variable is equal to yes that the loop starts
 //		add this into the end of each loop so when the game ends they are asked if they want to play
 //		if yes then the loop starts over again 
+		System.out.println("Would you like to play Black Jack? Y/N ");
+		playGame = kb.next();
 		
-		
+	if (playGame.equals("Y"))	{
 		
 		player1.addCardToHand(dealer.dealCard());
 		dealer.addCardToHand(dealer.dealCard());
@@ -43,6 +46,8 @@ public class BlackJackApp {
 
 		if (player1.hasBlackJack()) {
 			System.out.println("Black Jack!!!!");
+			System.out.println("would you like to play again? Y/N");
+			playGame = kb.nextLine();
 		}
 		while (player1.getHandValue() < 21 && keepGoing) {
 			System.out.println("Would you like to hit? Y/N ");
@@ -149,5 +154,9 @@ public class BlackJackApp {
 		}
 
 
+	}
+	else {
+		System.out.println("Okay, goodbye!");
+	}
 	}
 }
